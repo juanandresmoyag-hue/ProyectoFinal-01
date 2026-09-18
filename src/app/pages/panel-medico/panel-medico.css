@@ -3,23 +3,72 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 14px 24px;
+  padding: 16px 24px;
   background: #ffffff;
   border-bottom: 1px solid #e7e0d6;
   margin-bottom: 20px;
+  gap: 16px;
+  flex-wrap: wrap;
 }
 
 .titulo-header-medico {
   margin: 0;
-  font-size: 18px;
+  font-size: 19px;
   font-weight: 700;
   color: #1e293b;
+}
+
+.subtitulo-header-medico {
+  font-size: 12px;
+  color: #64748b;
+  display: block;
+  margin-top: 3px;
+}
+
+.badge-especialidad-header {
+  background-color: #e0e7ff;
+  color: #4338ca;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 9999px;
+}
+
+.cambio-medico-box {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  padding: 4px 10px;
+  border-radius: 8px;
+}
+
+.select-cambio-medico {
+  border: none;
+  background: transparent;
+  font-size: 12px;
+  font-weight: 600;
+  color: #1e293b;
+  outline: none;
+  cursor: pointer;
+}
+
+.diagnostico-caja {
+  background-color: #f8fafc;
+  border-left: 3px solid #10b981;
+  padding: 6px 10px;
+  border-radius: 4px;
+  display: inline-block;
+  font-size: 12px;
+  color: #334155;
 }
 
 .acciones-header-medico {
   display: flex;
   align-items: center;
   gap: 12px;
+  flex-wrap: wrap;
 }
 
 /* Layout en paralelo */

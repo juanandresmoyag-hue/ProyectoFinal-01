@@ -1,0 +1,424 @@
+/* Barra Superior Admin */
+.barra-superior-admin {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 28px;
+  background: #ffffff;
+  border-bottom: 1px solid #e7e0d6;
+  margin-bottom: 24px;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.titulo-header-admin {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 800;
+  color: #1e293b;
+}
+
+.badge-rol-admin {
+  background-color: #f3e8ff;
+  color: #7e22ce;
+  font-size: 11px;
+  font-weight: 800;
+  padding: 3px 10px;
+  border-radius: 9999px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.subtitulo-header-admin {
+  font-size: 13px;
+  color: #64748b;
+  display: block;
+  margin-top: 4px;
+}
+
+.acciones-header-admin {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+/* Contenedor Principal */
+.contenedor-principal-admin {
+  padding: 0 28px 40px 28px;
+  font-family: inherit;
+}
+
+/* Tarjetas KPI de Métricas */
+.grid-metricas {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.tarjeta-metrica {
+  background: #ffffff;
+  border-radius: 14px;
+  padding: 18px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  border: 1px solid #e7e0d6;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.03);
+  transition: transform 0.2s ease;
+}
+
+.tarjeta-metrica:hover {
+  transform: translateY(-2px);
+}
+
+.metrica-icono {
+  font-size: 28px;
+  background: #f8fafc;
+  padding: 12px;
+  border-radius: 12px;
+}
+
+.metrica-datos {
+  display: flex;
+  flex-direction: column;
+}
+
+.metrica-valor {
+  font-size: 24px;
+  font-weight: 800;
+  color: #0f172a;
+  line-height: 1;
+}
+
+.metrica-etiqueta {
+  font-size: 12px;
+  color: #64748b;
+  font-weight: 600;
+  margin-top: 4px;
+}
+
+.metrica-azul { border-left: 4px solid #2563eb; }
+.metrica-ambar { border-left: 4px solid #f59e0b; }
+.metrica-verde { border-left: 4px solid #10b981; }
+.metrica-morada { border-left: 4px solid #8b5cf6; }
+.metrica-celeste { border-left: 4px solid #06b6d4; }
+
+/* Pestañas */
+.pestanas-admin {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 20px;
+  border-bottom: 1px solid #e2e8f0;
+  padding-bottom: 8px;
+  flex-wrap: wrap;
+}
+
+.tab-admin-btn {
+  padding: 10px 18px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 700;
+  border: 1px solid transparent;
+  background: transparent;
+  color: #64748b;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.tab-admin-activa {
+  background-color: #2563eb;
+  color: #ffffff;
+  box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.2);
+}
+
+/* Secciones de Contenido */
+.seccion-admin-contenido {
+  background: #ffffff;
+  border-radius: 14px;
+  border: 1px solid #e7e0d6;
+  padding: 22px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+}
+
+.header-seccion-admin {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 18px;
+  border-bottom: 1px solid #f1f5f9;
+  padding-bottom: 12px;
+}
+
+.titulo-seccion-admin {
+  font-size: 17px;
+  font-weight: 700;
+  color: #1e293b;
+  margin: 0;
+}
+
+.subtitulo-seccion-admin {
+  font-size: 12px;
+  color: #64748b;
+  margin: 4px 0 0 0;
+}
+
+/* Barra de Filtros */
+.barra-filtros {
+  display: flex;
+  gap: 12px;
+  background: #fdfaf6;
+  border: 1px solid #e7e0d6;
+  padding: 14px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.filtro-campo {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.filtro-campo label {
+  font-size: 11px;
+  font-weight: 700;
+  color: #64748b;
+  text-transform: uppercase;
+}
+
+.flex-1 { flex: 1; min-width: 160px; }
+.flex-2 { flex: 2; min-width: 240px; }
+
+/* Tabla */
+.tabla-tarjeta {
+  overflow-x: auto;
+  border: 1px solid #e7e0d6;
+  border-radius: 10px;
+  max-height: 650px;
+  overflow-y: auto;
+}
+
+.tabla-clinica {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  font-size: 13px;
+}
+
+.tabla-clinica th {
+  background-color: #fdfaf6;
+  color: #475569;
+  font-weight: 700;
+  padding: 12px 14px;
+  border-bottom: 1px solid #e7e0d6;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+.tabla-clinica td {
+  padding: 12px 14px;
+  border-bottom: 1px solid #f1ece4;
+  color: #334155;
+  vertical-align: middle;
+}
+
+.paciente-nombre-texto {
+  font-size: 14px;
+  color: #0f172a;
+}
+
+.correo-sub {
+  display: block;
+  font-size: 11px;
+  color: #64748b;
+  margin-top: 2px;
+}
+
+.doctor-badge {
+  font-weight: 700;
+  color: #1e293b;
+}
+
+.especialidad-sub {
+  display: block;
+  font-size: 11px;
+  color: #2563eb;
+  font-weight: 600;
+  margin-top: 2px;
+}
+
+.motivo-texto {
+  font-size: 12px;
+  color: #475569;
+  line-height: 1.4;
+}
+
+.badge-estado {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 9999px;
+  text-transform: uppercase;
+}
+
+.badge-pendiente {
+  background-color: #fef3c7;
+  color: #b45309;
+}
+
+.badge-atendido {
+  background-color: #d1fae5;
+  color: #047857;
+}
+
+.diagnostico-caja-admin {
+  font-size: 12px;
+  color: #334155;
+  background-color: #f8fafc;
+  border-left: 3px solid #10b981;
+  padding: 4px 8px;
+  border-radius: 4px;
+  display: block;
+}
+
+.fecha-atencion-sub {
+  font-size: 10px;
+  color: #94a3b8;
+  display: block;
+  margin-top: 2px;
+}
+
+.texto-espera {
+  font-size: 11px;
+  color: #94a3b8;
+  font-style: italic;
+}
+
+.btn-atender-admin {
+  background-color: #10b981;
+  color: #ffffff;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-weight: 700;
+  font-size: 11px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  white-space: nowrap;
+}
+
+.btn-atender-admin:hover {
+  background-color: #059669;
+}
+
+.check-completado {
+  font-size: 11px;
+  font-weight: 700;
+  color: #059669;
+}
+
+.badge-total-citas {
+  background-color: #eff6ff;
+  color: #1d4ed8;
+  padding: 3px 8px;
+  border-radius: 6px;
+  font-weight: 700;
+  font-size: 11px;
+}
+
+.dni-texto {
+  font-family: monospace;
+  font-weight: 600;
+  color: #475569;
+}
+
+.badge-contador {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 9999px;
+  text-transform: uppercase;
+}
+
+.badge-pendiente-bg {
+  background-color: #fef3c7;
+  color: #b45309;
+}
+
+.badge-atendido-bg {
+  background-color: #d1fae5;
+  color: #047857;
+}
+
+.mensaje-vacio-tabla {
+  text-align: center;
+  padding: 30px;
+  color: #94a3b8;
+  font-size: 13px;
+}
+
+/* Grid de Médicos */
+.grid-medicos-admin {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 16px;
+}
+
+.tarjeta-medico-admin {
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 16px;
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  background: #fdfaf6;
+}
+
+.avatar-medico-admin {
+  font-size: 28px;
+  background: #ffffff;
+  border-radius: 50%;
+  padding: 10px;
+  border: 1px solid #e2e8f0;
+}
+
+.info-medico-admin {
+  flex: 1;
+}
+
+.nombre-medico-admin {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 700;
+  color: #1e293b;
+}
+
+.especialidad-medico-admin {
+  font-size: 12px;
+  color: #2563eb;
+  font-weight: 600;
+  display: block;
+  margin-top: 2px;
+}
+
+.correo-medico-admin {
+  font-size: 11px;
+  color: #64748b;
+  margin: 4px 0 6px 0;
+}
+
+.conteo-citas-medico {
+  font-size: 11px;
+  color: #475569;
+}
+
+/* Responsivo */
+@media (max-width: 900px) {
+  .barra-filtros {
+    flex-direction: column;
+  }
+}

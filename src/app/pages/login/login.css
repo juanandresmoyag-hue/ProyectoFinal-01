@@ -4,7 +4,7 @@
   display: flex;
   align-items: center;     
   justify-content: center;  
-  background-color: #faf7f2;
+  background: linear-gradient(135deg, #faf7f2 0%, #ede8e1 100%);
   padding: 24px;
   box-sizing: border-box;
 }
@@ -12,12 +12,12 @@
 /* Tarjeta del formulario optimizada */
 .tarjeta-login {
   background-color: #ffffff;
-  padding: 48px 40px;
-  border-radius: 16px;
+  padding: 40px 36px;
+  border-radius: 20px;
   border: 1px solid #e7e0d6;
-  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.02);
+  box-shadow: 0 15px 35px -5px rgba(0, 0, 0, 0.08), 0 8px 15px -6px rgba(0, 0, 0, 0.04);
   width: 100%;
-  max-width: 440px;
+  max-width: 460px;
   display: flex;
   flex-direction: column;
   gap: 16px;
@@ -27,7 +27,7 @@
 /* Encabezado del Formulario */
 .titulo-login {
   font-size: 26px;
-  font-weight: 700;
+  font-weight: 800;
   text-align: center;
   color: #2563eb;
   margin: 0;
@@ -35,20 +35,145 @@
 
 .subtitulo-login {
   text-align: center;
-  font-size: 14px;
+  font-size: 13px;
   color: #64748b;
-  margin: 4px 0 8px 0;
+  margin: 4px 0 6px 0;
+}
+
+/* Pestañas de Cambio de Modo */
+.pestanas-login {
+  display: flex;
+  background-color: #f1f5f9;
+  padding: 4px;
+  border-radius: 10px;
+  gap: 4px;
+}
+
+.pestana-btn {
+  flex: 1;
+  padding: 9px;
+  font-size: 13px;
+  font-weight: 600;
+  border: none;
+  background: transparent;
+  color: #64748b;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.pestana-activa {
+  background-color: #ffffff;
+  color: #1e293b;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08);
+}
+
+/* Mensajes de Alerta */
+.alerta-error {
+  background-color: #fef2f2;
+  border: 1px solid #fecaca;
+  color: #dc2626;
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.alerta-exito {
+  background-color: #ecfdf5;
+  border: 1px solid #a7f3d0;
+  color: #059669;
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.formulario-estilo {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
 }
 
 /* Grupos de campos individuales */
 .campo-grupo {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 5px;
 }
 
 .label-formulario {
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 600;
   color: #334155;
 }
+
+/* Divisor Demo */
+.divisor-demo {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  margin: 10px 0 2px 0;
+}
+
+.divisor-demo::before,
+.divisor-demo::after {
+  content: '';
+  flex: 1;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.divisor-demo span {
+  padding: 0 10px;
+  font-size: 11px;
+  font-weight: 600;
+  color: #94a3b8;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Botones Demo Grid */
+.botones-demo-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+
+.btn-demo {
+  padding: 9px 4px;
+  border-radius: 8px;
+  font-size: 11px;
+  font-weight: 700;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: center;
+}
+
+.btn-demo-paciente {
+  background-color: #eff6ff;
+  color: #1d4ed8;
+  border-color: #bfdbfe;
+}
+.btn-demo-paciente:hover {
+  background-color: #dbeafe;
+}
+
+.btn-demo-medico {
+  background-color: #f0fdf4;
+  color: #15803d;
+  border-color: #bbf7d0;
+}
+.btn-demo-medico:hover {
+  background-color: #dcfce7;
+}
+
+.btn-demo-admin {
+  background-color: #faf5ff;
+  color: #7e22ce;
+  border-color: #e9d5ff;
+}
+.btn-demo-admin:hover {
+  background-color: #f3e8ff;
+}
+

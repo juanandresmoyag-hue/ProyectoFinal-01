@@ -38,7 +38,7 @@ export class GestionCitasComponent implements OnInit {
     this.reservaForm = this.fb.group({
       especialidad: ['', [Validators.required]],
       medico_id: ['', [Validators.required]],
-      paciente_dni: ['71234567', [Validators.required]],
+      paciente_dni: [this.usuarioActual.dni || '71234567', [Validators.required]],
       paciente_nombre: [this.usuarioActual.nombre, [Validators.required]],
       paciente_correo: [this.usuarioActual.email, [Validators.required, Validators.email]],
       fecha: [new Date().toISOString().split('T')[0], [Validators.required]],
@@ -66,13 +66,15 @@ export class GestionCitasComponent implements OnInit {
 
   cargarDatosPaciente(): void {
     const todasLasCitas = this.db.getCitas();
-    const nombreUsuario = this.usuarioActual.nombre.toLowerCase().trim();
-    const correoUsuario = this.usuarioActual.email.toLowerCase().trim();
+    const nombreUsuario = (this.usuarioActual.nombre || '').toLowerCase().trim();
+    const correoUsuario = (this.usuarioActual.email || '').toLowerCase().trim();
+    const dniUsuario = (this.usuarioActual.dni || '').trim();
 
-    // Filtra las citas pertenecientes a este usuario
+    // Filtra las citas pertenecientes a este paciente
     const misCitas = todasLasCitas.filter(c => 
-      c.paciente_nombre.toLowerCase().includes(nombreUsuario) ||
-      c.paciente_correo.toLowerCase().includes(correoUsuario)
+      (dniUsuario && c.paciente_dni === dniUsuario) ||
+      (correoUsuario && c.paciente_correo.toLowerCase() === correoUsuario) ||
+      (nombreUsuario && c.paciente_nombre.toLowerCase().includes(nombreUsuario))
     );
 
     this.misCitasPendientes = misCitas.filter(c => c.estado === 'Pendiente');
@@ -94,7 +96,7 @@ export class GestionCitasComponent implements OnInit {
       let h = parseInt(hStr, 10);
       const ampm = h >= 12 ? 'PM' : 'AM';
       h = h % 12;
-      h = h ? h : 12; // La hora '0' pasa a '12'
+      h = h ? h : 12;
       horaFinal = `${String(h).padStart(2, '0')}:${mStr} ${ampm}`;
     }
     valor.hora = horaFinal;
@@ -116,10 +118,15 @@ export class GestionCitasComponent implements OnInit {
   }
 
   irAlPanel(): void {
-    this.router.navigate(['/panel-medico']);
+    if (this.usuarioActual.rol === 'admin') {
+      this.router.navigate(['/panel-admin']);
+    } else {
+      this.router.navigate(['/panel-medico']);
+    }
   }
 
   cerrarSesion(): void {
+    this.db.cerrarSesion();
     this.router.navigate(['/login']);
   }
 }

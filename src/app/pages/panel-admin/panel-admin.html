@@ -1,0 +1,308 @@
+<!-- Barra Superior Admin -->
+<div class="barra-superior-admin">
+  <div class="info-header-admin">
+    <div style="display: flex; align-items: center; gap: 12px;">
+      <h2 class="titulo-header-admin">👑 Panel de Control: Administrador General</h2>
+      <span class="badge-rol-admin">Acceso Total</span>
+    </div>
+    <span class="subtitulo-header-admin">
+      Supervisión central de todas las citas médicas, médicos especialistas y pacientes registrados
+    </span>
+  </div>
+
+  <div class="acciones-header-admin">
+    <button type="button" class="btn-secundario" (click)="irAGestionCitas()">
+      ➕ Agendar Cita
+    </button>
+    <button type="button" class="btn-secundario" (click)="irAPanelMedico()">
+      👨‍⚕️ Ver Vista Médico
+    </button>
+    <button type="button" class="btn-link-cerrar" (click)="cerrarSesion()">
+      Cerrar Sesión
+    </button>
+  </div>
+</div>
+
+<div class="contenedor-principal-admin">
+
+  <!-- Tarjetas KPI / Métricas Globales -->
+  <div class="grid-metricas">
+    <div class="tarjeta-metrica metrica-azul">
+      <div class="metrica-icono">📅</div>
+      <div class="metrica-datos">
+        <span class="metrica-valor">{{ totalCitas }}</span>
+        <span class="metrica-etiqueta">Total Citas Registradas</span>
+      </div>
+    </div>
+
+    <div class="tarjeta-metrica metrica-ambar">
+      <div class="metrica-icono">⏳</div>
+      <div class="metrica-datos">
+        <span class="metrica-valor">{{ totalPendientes }}</span>
+        <span class="metrica-etiqueta">Citas Pendientes</span>
+      </div>
+    </div>
+
+    <div class="tarjeta-metrica metrica-verde">
+      <div class="metrica-icono">✅</div>
+      <div class="metrica-datos">
+        <span class="metrica-valor">{{ totalAtendidas }}</span>
+        <span class="metrica-etiqueta">Pacientes Atendidos</span>
+      </div>
+    </div>
+
+    <div class="tarjeta-metrica metrica-morada">
+      <div class="metrica-icono">👥</div>
+      <div class="metrica-datos">
+        <span class="metrica-valor">{{ totalClientes }}</span>
+        <span class="metrica-etiqueta">Clientes Registrados</span>
+      </div>
+    </div>
+
+    <div class="tarjeta-metrica metrica-celeste">
+      <div class="metrica-icono">👨‍⚕️</div>
+      <div class="metrica-datos">
+        <span class="metrica-valor">{{ totalMedicos }}</span>
+        <span class="metrica-etiqueta">Doctores Activos</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Pestañas de Navegación del Panel Admin -->
+  <div class="pestanas-admin">
+    <button 
+      type="button" 
+      class="tab-admin-btn" 
+      [class.tab-admin-activa]="pestanaActiva === 'citas'"
+      (click)="cambiarPestana('citas')">
+      📋 Todas las Citas Médicas ({{ todasLasCitas.length }})
+    </button>
+
+    <button 
+      type="button" 
+      class="tab-admin-btn" 
+      [class.tab-admin-activa]="pestanaActiva === 'clientes'"
+      (click)="cambiarPestana('clientes')">
+      👥 Clientes Registrados ({{ clientes.length }})
+    </button>
+
+    <button 
+      type="button" 
+      class="tab-admin-btn" 
+      [class.tab-admin-activa]="pestanaActiva === 'medicos'"
+      (click)="cambiarPestana('medicos')">
+      🩺 Staff Médico Especialista ({{ medicos.length }})
+    </button>
+  </div>
+
+  <!-- ======================================================== -->
+  <!-- PESTAÑA 1: TODAS LAS CITAS DE TODOS LOS DOCTORES -->
+  <!-- ======================================================== -->
+  <div *ngIf="pestanaActiva === 'citas'" class="seccion-admin-contenido">
+    
+    <!-- Barra de Filtros Avanzados -->
+    <div class="barra-filtros">
+      
+      <!-- Búsqueda -->
+      <div class="filtro-campo flex-2">
+        <label>🔍 Buscar en todas las citas:</label>
+        <input 
+          type="text" 
+          [(ngModel)]="busqueda" 
+          (input)="aplicarFiltros()" 
+          placeholder="Buscar por paciente, DNI, doctor o motivo..." 
+          class="input-clinica"
+        />
+      </div>
+
+      <!-- Filtro por Médico -->
+      <div class="filtro-campo flex-1">
+        <label>👨‍⚕️ Filtrar por Médico:</label>
+        <select [(ngModel)]="filtroMedico" (change)="aplicarFiltros()" class="input-clinica">
+          <option value="todos">Todos los Doctores</option>
+          <option *ngFor="let m of medicos" [value]="m.id">{{ m.nombre }} ({{ m.especialidad }})</option>
+        </select>
+      </div>
+
+      <!-- Filtro por Especialidad -->
+      <div class="filtro-campo flex-1">
+        <label>🩺 Especialidad:</label>
+        <select [(ngModel)]="filtroEspecialidad" (change)="aplicarFiltros()" class="input-clinica">
+          <option value="todas">Todas las Especialidades</option>
+          <option *ngFor="let esp of especialidades" [value]="esp">{{ esp }}</option>
+        </select>
+      </div>
+
+      <!-- Filtro por Estado -->
+      <div class="filtro-campo flex-1">
+        <label>⚡ Estado:</label>
+        <select [(ngModel)]="filtroEstado" (change)="aplicarFiltros()" class="input-clinica">
+          <option value="todos">Todos los Estados</option>
+          <option value="Pendiente">Solo Pendientes</option>
+          <option value="Atendido">Solo Atendidos</option>
+        </select>
+      </div>
+
+    </div>
+
+    <!-- Tabla Global de Citas -->
+    <div class="tabla-tarjeta">
+      <table class="tabla-clinica">
+        <thead>
+          <tr>
+            <th>Horario / Fecha</th>
+            <th>Paciente (DNI & Contacto)</th>
+            <th>Doctor Asignado & Especialidad</th>
+            <th>Motivo de Consulta</th>
+            <th>Estado</th>
+            <th>Diagnóstico / Atención</th>
+            <th>Acción</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let c of citasFiltradas">
+            <td style="white-space: nowrap;">
+              <strong>⏰ {{ c.hora }}</strong>
+              <small class="correo-sub">📅 {{ c.fecha }}</small>
+            </td>
+
+            <td>
+              <strong class="paciente-nombre-texto">👤 {{ c.paciente_nombre }}</strong>
+              <small class="correo-sub">DNI: {{ c.paciente_dni }}</small>
+              <small class="correo-sub">✉️ {{ c.paciente_correo }}</small>
+            </td>
+
+            <td>
+              <span class="doctor-badge">👨‍⚕️ {{ c.medico_nombre }}</span>
+              <small class="especialidad-sub">{{ c.especialidad }}</small>
+            </td>
+
+            <td style="max-width: 200px;">
+              <span class="motivo-texto">{{ c.motivo }}</span>
+            </td>
+
+            <td>
+              <span class="badge-estado" [ngClass]="c.estado === 'Pendiente' ? 'badge-pendiente' : 'badge-atendido'">
+                {{ c.estado }}
+              </span>
+            </td>
+
+            <td style="max-width: 220px;">
+              <div *ngIf="c.estado === 'Atendido'; else sinDiagnostico">
+                <span class="diagnostico-caja-admin">{{ c.diagnostico }}</span>
+                <small class="fecha-atencion-sub">{{ c.fecha_atencion }}</small>
+              </div>
+              <ng-template #sinDiagnostico>
+                <span class="texto-espera">En espera de atención médica</span>
+              </ng-template>
+            </td>
+
+            <td>
+              <button 
+                *ngIf="c.estado === 'Pendiente'" 
+                type="button" 
+                class="btn-atender-admin" 
+                (click)="atenderCitaAdmin(c)">
+                🩺 Atender
+              </button>
+              <span *ngIf="c.estado === 'Atendido'" class="check-completado">
+                ✅ Concluida
+              </span>
+            </td>
+          </tr>
+
+          <tr *ngIf="citasFiltradas.length === 0">
+            <td colspan="7" class="mensaje-vacio-tabla">
+              No se encontraron citas que coincidan con los filtros seleccionados.
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+
+  <!-- ======================================================== -->
+  <!-- PESTAÑA 2: CLIENTES REGISTRADOS (Sin Duplicados) -->
+  <!-- ======================================================== -->
+  <div *ngIf="pestanaActiva === 'clientes'" class="seccion-admin-contenido">
+    
+    <div class="header-seccion-admin">
+      <div>
+        <h3 class="titulo-seccion-admin">👥 Directorio de Clientes Registrados</h3>
+        <p class="subtitulo-seccion-admin">Base de datos de pacientes. Cada cliente posee un DNI y correo únicos garantizados.</p>
+      </div>
+      <span class="badge-contador badge-atendido-bg">{{ clientes.length }} pacientes registrados</span>
+    </div>
+
+    <div class="tabla-tarjeta">
+      <table class="tabla-clinica">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>DNI</th>
+            <th>Nombre Completo</th>
+            <th>Correo Electrónico</th>
+            <th>Teléfono</th>
+            <th>Fecha Registro</th>
+            <th>Citas Totales</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let cl of clientes">
+            <td class="dni-texto">#{{ cl.id }}</td>
+            <td class="dni-texto"><strong>{{ cl.dni }}</strong></td>
+            <td>
+              <span class="paciente-nombre-texto">👤 {{ cl.nombre }}</span>
+            </td>
+            <td>
+              <span>✉️ {{ cl.email }}</span>
+            </td>
+            <td>
+              <span>{{ cl.telefono || 'No especificado' }}</span>
+            </td>
+            <td>
+              <small>{{ cl.fechaRegistro }}</small>
+            </td>
+            <td>
+              <span class="badge-total-citas">
+                {{ getCitasDeCliente(cl.email, cl.dni) }} citas
+              </span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+
+  <!-- ======================================================== -->
+  <!-- PESTAÑA 3: CUERPO MÉDICO -->
+  <!-- ======================================================== -->
+  <div *ngIf="pestanaActiva === 'medicos'" class="seccion-admin-contenido">
+    
+    <div class="header-seccion-admin">
+      <div>
+        <h3 class="titulo-seccion-admin">🩺 Plantel Médico y Especialidades</h3>
+        <p class="subtitulo-seccion-admin">Lista de doctores disponibles para atención y reserva de citas.</p>
+      </div>
+      <span class="badge-contador badge-pendiente-bg">{{ medicos.length }} doctores</span>
+    </div>
+
+    <div class="grid-medicos-admin">
+      <div *ngFor="let m of medicos" class="tarjeta-medico-admin">
+        <div class="avatar-medico-admin">👨‍⚕️</div>
+        <div class="info-medico-admin">
+          <h4 class="nombre-medico-admin">{{ m.nombre }}</h4>
+          <span class="especialidad-medico-admin">{{ m.especialidad }}</span>
+          <p class="correo-medico-admin">✉️ {{ m.email }}</p>
+          <div class="conteo-citas-medico">
+            <span>📅 Citas en sistema: <strong>{{ getCitasDeMedico(m.id) }}</strong></span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</div>

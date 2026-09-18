@@ -2,24 +2,43 @@
   <div class="tarjeta-login">
     <div>
       <h2 class="titulo-login">Salud Rápida S.A.</h2>
-      <p class="subtitulo-login">Portal de Reservas y Gestión</p>
+      <p class="subtitulo-login">Portal de Reservas, Atención Médica y Administración</p>
+    </div>
+
+    <!-- Pestañas de Modo (Login / Registro) -->
+    <div class="pestanas-login">
+      <button 
+        type="button" 
+        class="pestana-btn" 
+        [class.pestana-activa]="modo === 'login'"
+        (click)="cambiarModo('login')">
+        🔑 Iniciar Sesión
+      </button>
+      <button 
+        type="button" 
+        class="pestana-btn" 
+        [class.pestana-activa]="modo === 'registro'"
+        (click)="cambiarModo('registro')">
+        📝 Nuevo Paciente
+      </button>
+    </div>
+
+    <!-- Mensajes de Alerta -->
+    <div *ngIf="mensajeError" class="alerta-error">
+      ⚠️ {{ mensajeError }}
+    </div>
+
+    <div *ngIf="mensajeExito" class="alerta-exito">
+      ✅ {{ mensajeExito }}
     </div>
     
-    <form [formGroup]="loginForm" (ngSubmit)="onLogin()" style="display: flex; flex-direction: column; gap: 16px;">
+    <!-- ================= FORMULARIO LOGIN ================= -->
+    <form *ngIf="modo === 'login'" [formGroup]="loginForm" (ngSubmit)="onLogin()" class="formulario-estilo">
       
-      <!-- Campo Nombre -->
-      <div class="campo-grupo">
-        <label class="label-formulario">Nombre Completo</label>
-        <input formControlName="nombre" type="text" placeholder= 'Ej: Antonio peres' class="input-clinica">
-        <div *ngIf="loginForm.controls['nombre'].touched && loginForm.controls['nombre'].invalid">
-          <small class="error-texto">Ingresa tu nombre completo.</small>
-        </div>
-      </div>
-
       <!-- Campo Correo -->
       <div class="campo-grupo">
         <label class="label-formulario">Correo Electrónico</label>
-        <input formControlName="email" type="email" placeholder="ejemplo@gmail.com" class="input-clinica">
+        <input formControlName="email" type="email" placeholder="ejemplo@gmail.com o medico@salud.com" class="input-clinica">
         <div *ngIf="loginForm.controls['email'].touched && loginForm.controls['email'].invalid">
           <small class="error-texto">Ingresa un correo electrónico válido.</small>
         </div>
@@ -28,32 +47,91 @@
       <!-- Campo Contraseña -->
       <div class="campo-grupo">
         <label class="label-formulario">Contraseña</label>
-        <input formControlName="password" type="password" placeholder="123456" class="input-clinica">
+        <input formControlName="password" type="password" placeholder="••••••••" class="input-clinica">
         <div *ngIf="loginForm.controls['password'].touched && loginForm.controls['password'].invalid">
-          <small class="error-texto">La contraseña debe tener al menos 6 caracteres .</small>
+          <small class="error-texto">La contraseña debe tener al menos 4 caracteres.</small>
         </div>
       </div>
 
-      <button type="submit" class="btn-primario" style="margin-top: 10px !important;">
-        Iniciar Sesión / Ingresar
+      <button type="submit" class="btn-primario" style="margin-top: 6px;">
+        Iniciar Sesión
       </button>
-
-      <div style="display: flex; gap: 10px; margin-top: 6px;">
-        <button 
-          type="button" 
-          class="btn-secundario" 
-          style="flex: 1; padding: 8px; font-size: 12px;" 
-          (click)="loginForm.patchValue({ nombre: 'Ana María Lozano', email: 'ana.lozano@email.com' }); onLogin()">
-          📅 Paciente Demo
-        </button>
-        <button 
-          type="button" 
-          class="btn-secundario" 
-          style="flex: 1; padding: 8px; font-size: 12px;" 
-          (click)="loginForm.patchValue({ nombre: 'Dr. Roberto Mendoza', email: 'medico@salud.com' }); onLogin()">
-          👨‍⚕️ Médico Demo
-        </button>
-      </div>
     </form>
+
+    <!-- ================= FORMULARIO REGISTRO CLIENTE ================= -->
+    <form *ngIf="modo === 'registro'" [formGroup]="registroForm" (ngSubmit)="onRegistro()" class="formulario-estilo">
+      
+      <!-- DNI y Nombre -->
+      <div class="campo-grupo">
+        <label class="label-formulario">DNI / Documento de Identidad *</label>
+        <input formControlName="dni" type="text" placeholder="Ej: 71234567" class="input-clinica">
+        <div *ngIf="registroForm.controls['dni'].touched && registroForm.controls['dni'].invalid">
+          <small class="error-texto">Ingresa un DNI válido (8 a 12 dígitos).</small>
+        </div>
+      </div>
+
+      <div class="campo-grupo">
+        <label class="label-formulario">Nombre Completo *</label>
+        <input formControlName="nombre" type="text" placeholder="Ej: Antonio Pérez García" class="input-clinica">
+        <div *ngIf="registroForm.controls['nombre'].touched && registroForm.controls['nombre'].invalid">
+          <small class="error-texto">Ingresa tu nombre completo (mínimo 3 caracteres).</small>
+        </div>
+      </div>
+
+      <!-- Correo Electrónico -->
+      <div class="campo-grupo">
+        <label class="label-formulario">Correo Electrónico *</label>
+        <input formControlName="email" type="email" placeholder="antonio.perez@email.com" class="input-clinica">
+        <div *ngIf="registroForm.controls['email'].touched && registroForm.controls['email'].invalid">
+          <small class="error-texto">Ingresa un correo electrónico válido.</small>
+        </div>
+      </div>
+
+      <!-- Teléfono (Opcional) -->
+      <div class="campo-grupo">
+        <label class="label-formulario">Teléfono / Celular (Opcional)</label>
+        <input formControlName="telefono" type="tel" placeholder="Ej: 987654321" class="input-clinica">
+      </div>
+
+      <!-- Contraseña -->
+      <div class="campo-grupo">
+        <label class="label-formulario">Crear Contraseña *</label>
+        <input formControlName="password" type="password" placeholder="Mínimo 6 caracteres" class="input-clinica">
+        <div *ngIf="registroForm.controls['password'].touched && registroForm.controls['password'].invalid">
+          <small class="error-texto">La contraseña debe tener al menos 6 caracteres.</small>
+        </div>
+      </div>
+
+      <button type="submit" class="btn-primario" style="margin-top: 6px; background-color: #059669;">
+        ✨ Registrar Paciente y Entrar
+      </button>
+    </form>
+
+    <!-- SECCIÓN ACCESOS DEMO RÁPIDOS -->
+    <div class="divisor-demo">
+      <span>Accesos Rápidos Demo</span>
+    </div>
+
+    <div class="botones-demo-grid">
+      <button 
+        type="button" 
+        class="btn-demo btn-demo-paciente" 
+        (click)="demoPaciente()">
+        📅 Paciente Demo
+      </button>
+      <button 
+        type="button" 
+        class="btn-demo btn-demo-medico" 
+        (click)="demoMedico()">
+        👨‍⚕️ Médico Demo
+      </button>
+      <button 
+        type="button" 
+        class="btn-demo btn-demo-admin" 
+        (click)="demoAdmin()">
+        👑 Admin Demo
+      </button>
+    </div>
+
   </div>
 </div>

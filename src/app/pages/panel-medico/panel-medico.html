@@ -1,11 +1,30 @@
 <!-- Barra Superior -->
 <div class="barra-superior-medico">
   <div class="info-header-medico">
-    <h2 class="titulo-header-medico">👨‍⚕️ Panel de Control Médico: Agenda Diaria</h2>
+    <div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
+      <h2 class="titulo-header-medico">👨‍⚕️ Panel Médico: {{ usuarioActual.nombre }}</h2>
+      <span class="badge-especialidad-header">{{ usuarioActual.especialidad || 'Especialista' }}</span>
+    </div>
+    <span class="subtitulo-header-medico">✉️ {{ usuarioActual.email }} | Vista exclusiva de tus consultas asignadas</span>
   </div>
+
   <div class="acciones-header-medico">
+    <!-- Selector rápido de médico (útil para pruebas) -->
+    <div class="cambio-medico-box">
+      <label for="selectMedicoDoc" style="font-size: 11px; font-weight: 600; color: #64748b;">Cambiar Doctor:</label>
+      <select 
+        id="selectMedicoDoc"
+        [ngModel]="usuarioActual.medico_id" 
+        (ngModelChange)="cambiarMedicoActivo($event)"
+        class="select-cambio-medico">
+        <option *ngFor="let m of medicosDisponibles" [value]="m.id">
+          {{ m.nombre }} ({{ m.especialidad }})
+        </option>
+      </select>
+    </div>
+
     <button type="button" class="btn-secundario" (click)="irAGestionCitas()">
-      ➕ Agendar Nueva Cita
+      ➕ Agendar Cita
     </button>
     <button type="button" class="btn-link-cerrar" (click)="cerrarSesion()">
       Cerrar Sesión
@@ -15,25 +34,28 @@
 
 <div class="layout-fusionado">
 
-  <!-- COLUMNA IZQUIERDA: Citas Pendientes por Atender -->
+  <!-- COLUMNA IZQUIERDA: Citas Pendientes por Atender (Exclusivas de este médico) -->
   <div class="columna-izquierda">
     <div class="contenedor-medico">
       <div class="header-bloque">
-        <h3 class="titulo-pagina">📌 Citas por Atender ({{ citasPendientes.length }})</h3>
+        <div>
+          <h3 class="titulo-pagina">📌 Mis Citas por Atender ({{ citasPendientes.length }})</h3>
+          <small style="color: #64748b; font-size: 12px;">Citas agendadas exclusivamente para ti</small>
+        </div>
         <span class="badge-contador badge-pendiente-bg">{{ citasPendientes.length }} pendientes</span>
       </div>
       
-      <!-- Buscador de Médico -->
+      <!-- Buscador de Paciente -->
       <div class="buscador-medico">
-        <label for="buscarMedico">Buscar Médico o Paciente:</label>
+        <label for="buscarPacienteDoc">Filtrar por Paciente o DNI:</label>
         <div class="input-contenedor">
           <span class="icono-buscar">🔍</span>
           <input 
             type="text" 
-            id="buscarMedico" 
+            id="buscarPacienteDoc" 
             [(ngModel)]="busqueda"
             (input)="cargarListas()"
-            placeholder="Escribe el nombre del médico o paciente..."
+            placeholder="Buscar por nombre, DNI o motivo..."
             class="input-clinico"
           />
         </div>
@@ -50,29 +72,32 @@
           
           <h4 class="cita-paciente">👤 {{ c.paciente_nombre }}</h4>
           <p class="cita-subinfo">
-            <strong>Especialista:</strong> {{ c.medico_nombre }} ({{ c.especialidad }})
+            <strong>DNI:</strong> {{ c.paciente_dni }} | <strong>Email:</strong> {{ c.paciente_correo }}
           </p>
-          <p class="cita-motivo"><strong>Motivo:</strong> {{ c.motivo }}</p>
+          <p class="cita-motivo"><strong>Motivo de Consulta:</strong> {{ c.motivo }}</p>
 
-          <div style="margin-top: 10px; display: flex; justify-content: flex-end;">
+          <div style="margin-top: 12px; display: flex; justify-content: flex-end;">
             <button type="button" class="btn-atender" (click)="atenderPaciente(c)">
-              🩺 Marcar como Atendido
+              🩺 Atender y Registrar Diagnóstico
             </button>
           </div>
         </div>
 
         <div *ngIf="citasPendientes.length === 0" class="mensaje-vacio-bloque">
-          🎉 No hay citas pendientes por el momento.
+          🎉 No tienes citas pendientes por atender en este momento.
         </div>
       </div>
     </div>
   </div>
 
-  <!-- COLUMNA DERECHA: Control de Pacientes Atendidos -->
+  <!-- COLUMNA DERECHA: Control de Pacientes Atendidos por este Médico -->
   <div class="columna-derecha">
     <div class="contenedor-usuarios">
       <div class="header-bloque">
-        <h2 class="titulo-pagina">✅ Control de Pacientes Atendidos ({{ pacientesAtendidos.length }})</h2>
+        <div>
+          <h2 class="titulo-pagina">✅ Mis Pacientes Atendidos ({{ pacientesAtendidos.length }})</h2>
+          <small style="color: #64748b; font-size: 12px;">Historial de consultas completadas por ti</small>
+        </div>
         <span class="badge-contador badge-atendido-bg">{{ pacientesAtendidos.length }} atendidos</span>
       </div>
       
@@ -83,9 +108,8 @@
             <tr>
               <th>DNI</th>
               <th>Paciente</th>
-              <th>Médico / Especialidad</th>
               <th>Diagnóstico / Observación</th>
-              <th>Fecha Atención</th>
+              <th>Fecha y Hora de Atención</th>
             </tr>
           </thead>
           <tbody>
@@ -95,16 +119,14 @@
                 <strong>{{ p.paciente_nombre }}</strong>
                 <small class="correo-sub">{{ p.paciente_correo }}</small>
               </td>
-              <td>
-                <span class="especialidad-tag">{{ p.especialidad }}</span>
-                <small class="medico-sub">{{ p.medico_nombre }}</small>
+              <td class="diagnostico-texto">
+                <span class="diagnostico-caja">{{ p.diagnostico }}</span>
               </td>
-              <td class="diagnostico-texto">{{ p.diagnostico }}</td>
               <td class="fecha-texto">{{ p.fecha_atencion }}</td>
             </tr>
             <tr *ngIf="pacientesAtendidos.length === 0">
-              <td colspan="5" class="mensaje-vacio-tabla">
-                Aún no hay pacientes atendidos.
+              <td colspan="4" class="mensaje-vacio-tabla">
+                Aún no has atendido pacientes en este turno.
               </td>
             </tr>
           </tbody>
