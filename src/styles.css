@@ -1,1 +1,91 @@
-/* You can add global styles to this file, and also import other style files */
+/* src/styles.css */
+
+body {
+  font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+  background-color: #faf7f2; /* Tono cálido acogedor */
+  color: #2d3748;
+  margin: 0;
+  padding: 0;
+}
+
+/* Clases de utilidad personalizadas para formularios corporativos */
+.input-clinica {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 10px 14px;
+  border: 1px solid #e2d9ce;
+  background-color: #ffffff;
+  border-radius: 8px;
+  outline: none;
+  font-size: 14px;
+  color: #2d3748;
+  transition: all 0.25s ease;
+}
+
+.input-clinica:focus {
+  border-color: #3b82f6;
+  background-color: #ffffff;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+}
+
+.btn-primario {
+  width: 100%;
+  background-color: #2563eb;
+  color: #ffffff;
+  padding: 12px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 14px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.btn-primario:hover {
+  background-color: #1d4ed8;
+}
+
+.btn-primario:active {
+  transform: scale(0.99);
+}
+
+.btn-secundario {
+  background-color: #f5efe6;
+  color: #4a5568;
+  border: 1px solid #e2d9ce;
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-secundario:hover {
+  background-color: #ebe2d5;
+  color: #1a202c;
+}
+
+.btn-link-cerrar {
+  background: none;
+  border: none;
+  color: #dc2626;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 6px 10px;
+  border-radius: 6px;
+  transition: background-color 0.2s ease;
+}
+
+.btn-link-cerrar:hover {
+  background-color: #fee2e2;
+  text-decoration: underline;
+}
+
+.error-texto {
+  color: #dc2626;
+  font-size: 12px;
+  margin-top: 4px;
+  display: block;
+}

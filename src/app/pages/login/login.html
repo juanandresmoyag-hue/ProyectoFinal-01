@@ -1,0 +1,59 @@
+<div class="contenedor-login">
+  <div class="tarjeta-login">
+    <div>
+      <h2 class="titulo-login">Salud Rápida S.A.</h2>
+      <p class="subtitulo-login">Portal de Reservas y Gestión</p>
+    </div>
+    
+    <form [formGroup]="loginForm" (ngSubmit)="onLogin()" style="display: flex; flex-direction: column; gap: 16px;">
+      
+      <!-- Campo Nombre -->
+      <div class="campo-grupo">
+        <label class="label-formulario">Nombre Completo</label>
+        <input formControlName="nombre" type="text" placeholder= 'Ej: Antonio peres' class="input-clinica">
+        <div *ngIf="loginForm.controls['nombre'].touched && loginForm.controls['nombre'].invalid">
+          <small class="error-texto">Ingresa tu nombre completo.</small>
+        </div>
+      </div>
+
+      <!-- Campo Correo -->
+      <div class="campo-grupo">
+        <label class="label-formulario">Correo Electrónico</label>
+        <input formControlName="email" type="email" placeholder="ejemplo@gmail.com" class="input-clinica">
+        <div *ngIf="loginForm.controls['email'].touched && loginForm.controls['email'].invalid">
+          <small class="error-texto">Ingresa un correo electrónico válido.</small>
+        </div>
+      </div>
+
+      <!-- Campo Contraseña -->
+      <div class="campo-grupo">
+        <label class="label-formulario">Contraseña</label>
+        <input formControlName="password" type="password" placeholder="123456" class="input-clinica">
+        <div *ngIf="loginForm.controls['password'].touched && loginForm.controls['password'].invalid">
+          <small class="error-texto">La contraseña debe tener al menos 6 caracteres .</small>
+        </div>
+      </div>
+
+      <button type="submit" class="btn-primario" style="margin-top: 10px !important;">
+        Iniciar Sesión / Ingresar
+      </button>
+
+      <div style="display: flex; gap: 10px; margin-top: 6px;">
+        <button 
+          type="button" 
+          class="btn-secundario" 
+          style="flex: 1; padding: 8px; font-size: 12px;" 
+          (click)="loginForm.patchValue({ nombre: 'Ana María Lozano', email: 'ana.lozano@email.com' }); onLogin()">
+          📅 Paciente Demo
+        </button>
+        <button 
+          type="button" 
+          class="btn-secundario" 
+          style="flex: 1; padding: 8px; font-size: 12px;" 
+          (click)="loginForm.patchValue({ nombre: 'Dr. Roberto Mendoza', email: 'medico@salud.com' }); onLogin()">
+          👨‍⚕️ Médico Demo
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

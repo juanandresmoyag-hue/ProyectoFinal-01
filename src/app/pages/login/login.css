@@ -1,0 +1,54 @@
+/* Contenedor principal que ocupa el 100% de la pantalla y centra el contenido */
+.contenedor-login {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;     
+  justify-content: center;  
+  background-color: #faf7f2;
+  padding: 24px;
+  box-sizing: border-box;
+}
+
+/* Tarjeta del formulario optimizada */
+.tarjeta-login {
+  background-color: #ffffff;
+  padding: 48px 40px;
+  border-radius: 16px;
+  border: 1px solid #e7e0d6;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.02);
+  width: 100%;
+  max-width: 440px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  box-sizing: border-box;
+}
+
+/* Encabezado del Formulario */
+.titulo-login {
+  font-size: 26px;
+  font-weight: 700;
+  text-align: center;
+  color: #2563eb;
+  margin: 0;
+}
+
+.subtitulo-login {
+  text-align: center;
+  font-size: 14px;
+  color: #64748b;
+  margin: 4px 0 8px 0;
+}
+
+/* Grupos de campos individuales */
+.campo-grupo {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.label-formulario {
+  font-size: 13px;
+  font-weight: 600;
+  color: #334155;
+}

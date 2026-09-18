@@ -1,0 +1,303 @@
+/* Barra Superior */
+.barra-superior-medico {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 24px;
+  background: #ffffff;
+  border-bottom: 1px solid #e7e0d6;
+  margin-bottom: 20px;
+}
+
+.titulo-header-medico {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 700;
+  color: #1e293b;
+}
+
+.acciones-header-medico {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* Layout en paralelo */
+.layout-fusionado {
+  display: flex;
+  gap: 24px;
+  padding: 0 24px 30px 24px;
+  align-items: flex-start;
+  font-family: inherit;
+}
+
+/* Distribución de Anchos (45% Izquierda - 55% Derecha) */
+.columna-izquierda {
+  flex: 5;
+  background: #ffffff;
+  padding: 22px;
+  border-radius: 12px;
+  border: 1px solid #e7e0d6;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+}
+
+.columna-derecha {
+  flex: 7;
+  background: #ffffff;
+  padding: 22px;
+  border-radius: 12px;
+  border: 1px solid #e7e0d6;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+}
+
+/* Títulos */
+.header-bloque {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #f1ece4;
+}
+
+.titulo-pagina {
+  font-size: 17px;
+  font-weight: 700;
+  color: #1e293b;
+  margin: 0;
+}
+
+.badge-contador {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 9999px;
+  text-transform: uppercase;
+}
+
+.badge-pendiente-bg {
+  background-color: #fef3c7;
+  color: #b45309;
+}
+
+.badge-atendido-bg {
+  background-color: #d1fae5;
+  color: #047857;
+}
+
+/* Sección Buscador */
+.buscador-medico {
+  margin-bottom: 18px;
+  background: #fdfaf6;
+  padding: 12px 14px;
+  border-radius: 8px;
+  border: 1px solid #e7e0d6;
+}
+
+.buscador-medico label {
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+  color: #64748b;
+  margin-bottom: 6px;
+}
+
+.input-contenedor {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.icono-buscar {
+  position: absolute;
+  left: 12px;
+  font-size: 14px;
+  color: #94a3b8;
+}
+
+.input-clinico {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 8px 10px 8px 36px;
+  border: 1px solid #e2d9ce;
+  background: #ffffff;
+  border-radius: 6px;
+  font-size: 13px;
+  outline: none;
+  transition: all 0.2s ease;
+}
+
+.input-clinico:focus {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+}
+
+/* Tarjetas de Citas */
+.grid-citas {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-height: 600px;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+.tarjeta-cita {
+  padding: 14px;
+  border-radius: 8px;
+  border-left: 4px solid #f59e0b;
+  background: #fdfcf9;
+  border-top: 1px solid #f1ece4;
+  border-right: 1px solid #f1ece4;
+  border-bottom: 1px solid #f1ece4;
+}
+
+.cita-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 6px;
+}
+
+.cita-hora {
+  font-weight: 600;
+  color: #475569;
+  font-size: 13px;
+}
+
+.cita-paciente {
+  font-size: 15px;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0 0 4px 0;
+}
+
+.cita-subinfo {
+  margin: 2px 0;
+  font-size: 13px;
+  color: #475569;
+}
+
+.cita-motivo {
+  font-size: 12px;
+  color: #64748b;
+  background: #f8f4ed;
+  padding: 6px 10px;
+  border-radius: 6px;
+  margin: 6px 0 0 0;
+}
+
+/* Badges de Estado */
+.badge-estado {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 9999px;
+  text-transform: uppercase;
+}
+
+.badge-pendiente {
+  background-color: #fef3c7;
+  color: #b45309;
+}
+
+.btn-atender {
+  background-color: #10b981;
+  color: #ffffff;
+  border: none;
+  padding: 7px 12px;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 12px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.btn-atender:hover {
+  background-color: #059669;
+}
+
+.mensaje-vacio-bloque {
+  text-align: center;
+  padding: 30px 10px;
+  color: #94a3b8;
+  font-size: 13px;
+}
+
+/* Tabla de Pacientes */
+.tabla-tarjeta {
+  overflow-x: auto;
+  border: 1px solid #e7e0d6;
+  border-radius: 8px;
+  max-height: 600px;
+  overflow-y: auto;
+}
+
+.tabla-clinica {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  font-size: 13px;
+}
+
+.tabla-clinica th {
+  background-color: #fdfaf6;
+  color: #475569;
+  font-weight: 600;
+  padding: 12px 14px;
+  border-bottom: 1px solid #e7e0d6;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+.tabla-clinica td {
+  padding: 12px 14px;
+  border-bottom: 1px solid #f1ece4;
+  color: #334155;
+}
+
+.dni-texto {
+  font-weight: 600;
+  color: #475569;
+  font-family: monospace;
+}
+
+.correo-sub, .medico-sub {
+  display: block;
+  font-size: 11px;
+  color: #64748b;
+  margin-top: 2px;
+}
+
+.especialidad-tag {
+  font-weight: 600;
+  color: #1e293b;
+}
+
+.diagnostico-texto {
+  font-size: 13px;
+  color: #334155;
+}
+
+.fecha-texto {
+  font-size: 12px;
+  color: #64748b;
+  white-space: nowrap;
+}
+
+.mensaje-vacio-tabla {
+  text-align: center;
+  padding: 30px;
+  color: #94a3b8;
+}
+
+/* Responsivo para Tablets y Teléfonos */
+@media (max-width: 1024px) {
+  .layout-fusionado {
+    flex-direction: column;
+  }
+  .columna-izquierda, .columna-derecha {
+    width: 100%;
+  }
+}

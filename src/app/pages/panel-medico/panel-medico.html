@@ -1,0 +1,116 @@
+<!-- Barra Superior -->
+<div class="barra-superior-medico">
+  <div class="info-header-medico">
+    <h2 class="titulo-header-medico">👨‍⚕️ Panel de Control Médico: Agenda Diaria</h2>
+  </div>
+  <div class="acciones-header-medico">
+    <button type="button" class="btn-secundario" (click)="irAGestionCitas()">
+      ➕ Agendar Nueva Cita
+    </button>
+    <button type="button" class="btn-link-cerrar" (click)="cerrarSesion()">
+      Cerrar Sesión
+    </button>
+  </div>
+</div>
+
+<div class="layout-fusionado">
+
+  <!-- COLUMNA IZQUIERDA: Citas Pendientes por Atender -->
+  <div class="columna-izquierda">
+    <div class="contenedor-medico">
+      <div class="header-bloque">
+        <h3 class="titulo-pagina">📌 Citas por Atender ({{ citasPendientes.length }})</h3>
+        <span class="badge-contador badge-pendiente-bg">{{ citasPendientes.length }} pendientes</span>
+      </div>
+      
+      <!-- Buscador de Médico -->
+      <div class="buscador-medico">
+        <label for="buscarMedico">Buscar Médico o Paciente:</label>
+        <div class="input-contenedor">
+          <span class="icono-buscar">🔍</span>
+          <input 
+            type="text" 
+            id="buscarMedico" 
+            [(ngModel)]="busqueda"
+            (input)="cargarListas()"
+            placeholder="Escribe el nombre del médico o paciente..."
+            class="input-clinico"
+          />
+        </div>
+      </div>
+      
+      <!-- Listado de Citas Diarias -->
+      <div class="grid-citas">
+        <div *ngFor="let c of citasPendientes" class="tarjeta-cita cita-pendiente">
+          
+          <div class="cita-header">
+            <span class="cita-hora">⏰ {{ c.hora }} | 📅 {{ c.fecha }}</span>
+            <span class="badge-estado badge-pendiente">Pendiente</span>
+          </div>
+          
+          <h4 class="cita-paciente">👤 {{ c.paciente_nombre }}</h4>
+          <p class="cita-subinfo">
+            <strong>Especialista:</strong> {{ c.medico_nombre }} ({{ c.especialidad }})
+          </p>
+          <p class="cita-motivo"><strong>Motivo:</strong> {{ c.motivo }}</p>
+
+          <div style="margin-top: 10px; display: flex; justify-content: flex-end;">
+            <button type="button" class="btn-atender" (click)="atenderPaciente(c)">
+              🩺 Marcar como Atendido
+            </button>
+          </div>
+        </div>
+
+        <div *ngIf="citasPendientes.length === 0" class="mensaje-vacio-bloque">
+          🎉 No hay citas pendientes por el momento.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- COLUMNA DERECHA: Control de Pacientes Atendidos -->
+  <div class="columna-derecha">
+    <div class="contenedor-usuarios">
+      <div class="header-bloque">
+        <h2 class="titulo-pagina">✅ Control de Pacientes Atendidos ({{ pacientesAtendidos.length }})</h2>
+        <span class="badge-contador badge-atendido-bg">{{ pacientesAtendidos.length }} atendidos</span>
+      </div>
+      
+      <!-- Tabla de Pacientes -->
+      <div class="tabla-tarjeta">
+        <table class="tabla-clinica">
+          <thead>
+            <tr>
+              <th>DNI</th>
+              <th>Paciente</th>
+              <th>Médico / Especialidad</th>
+              <th>Diagnóstico / Observación</th>
+              <th>Fecha Atención</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let p of pacientesAtendidos">
+              <td class="dni-texto">{{ p.paciente_dni }}</td>
+              <td class="paciente-nombre">
+                <strong>{{ p.paciente_nombre }}</strong>
+                <small class="correo-sub">{{ p.paciente_correo }}</small>
+              </td>
+              <td>
+                <span class="especialidad-tag">{{ p.especialidad }}</span>
+                <small class="medico-sub">{{ p.medico_nombre }}</small>
+              </td>
+              <td class="diagnostico-texto">{{ p.diagnostico }}</td>
+              <td class="fecha-texto">{{ p.fecha_atencion }}</td>
+            </tr>
+            <tr *ngIf="pacientesAtendidos.length === 0">
+              <td colspan="5" class="mensaje-vacio-tabla">
+                Aún no hay pacientes atendidos.
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+</div>

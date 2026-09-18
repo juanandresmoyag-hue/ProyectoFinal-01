@@ -1,0 +1,191 @@
+<!-- Barra Superior -->
+<div class="barra-superior-citas">
+  <div class="info-usuario-header">
+    <h2 class="titulo-principal">Portal del Paciente: Gestión de Citas</h2>
+    <span class="badge-usuario">👤 {{ usuarioActual.nombre }}</span>
+  </div>
+  <div class="acciones-header">
+    <button type="button" class="btn-secundario" (click)="irAlPanel()">
+      👨‍⚕️ Ir a Panel Médico
+    </button>
+    <button type="button" class="btn-link-cerrar" (click)="cerrarSesion()">
+      Cerrar Sesión
+    </button>
+  </div>
+</div>
+
+<div class="layout-fusionado-citas">
+
+  <!-- ======================================================== -->
+  <!-- COLUMNA IZQUIERDA: Nombre, Citas Agendadas e Historial -->
+  <!-- ======================================================== -->
+  <div class="columna-izquierda-citas">
+    
+    <!-- 1. Nombre de la persona registrada -->
+    <div class="tarjeta-perfil">
+      <div class="perfil-avatar">👤</div>
+      <div class="perfil-info">
+        <span class="perfil-label">Paciente Registrado</span>
+        <h3 class="perfil-nombre">{{ usuarioActual.nombre }}</h3>
+        <p class="perfil-correo">✉️ {{ usuarioActual.email }}</p>
+      </div>
+    </div>
+
+    <!-- 2. Citas Agendadas (Pendientes) -->
+    <div class="seccion-lista-paciente">
+      <div class="header-subseccion">
+        <h4 class="subtitulo-seccion">📅 Mis Citas Agendadas ({{ misCitasPendientes.length }})</h4>
+      </div>
+
+      <div class="lista-items" *ngIf="misCitasPendientes.length > 0; else noCitasPendientes">
+        <div *ngFor="let c of misCitasPendientes" class="item-cita-paciente cita-pendiente-borde">
+          <div class="item-header">
+            <span class="item-horario">⏰ {{ c.hora }} | {{ c.fecha }}</span>
+            <span class="badge-estado-paciente badge-pendiente">Pendiente</span>
+          </div>
+          <p class="item-medico">🩺 <strong>{{ c.especialidad }}</strong>: {{ c.medico_nombre }}</p>
+          <p class="item-motivo"><strong>Motivo:</strong> {{ c.motivo }}</p>
+        </div>
+      </div>
+
+      <ng-template #noCitasPendientes>
+        <p class="texto-vacio">No tienes citas agendadas por el momento.</p>
+      </ng-template>
+    </div>
+
+    <!-- 3. Historial Médico (Atendidas) -->
+    <div class="seccion-lista-paciente" style="margin-top: 18px;">
+      <div class="header-subseccion">
+        <h4 class="subtitulo-seccion">📋 Mi Historial Médico ({{ miHistorialMedico.length }})</h4>
+      </div>
+
+      <div class="lista-items" *ngIf="miHistorialMedico.length > 0; else noHistorial">
+        <div *ngFor="let h of miHistorialMedico" class="item-cita-paciente cita-atendida-borde">
+          <div class="item-header">
+            <span class="item-horario">✅ Atendido: {{ h.fecha_atencion }}</span>
+            <span class="badge-estado-paciente badge-atendida">Atendido</span>
+          </div>
+          <p class="item-medico">👨‍⚕️ {{ h.medico_nombre }} ({{ h.especialidad }})</p>
+          <div class="item-diagnostico">
+            <strong>Diagnóstico / Observación:</strong>
+            <p style="margin: 4px 0 0 0;">{{ h.diagnostico }}</p>
+          </div>
+        </div>
+      </div>
+
+      <ng-template #noHistorial>
+        <p class="texto-vacio">Aún no cuentas con historial de consultas atendidas.</p>
+      </ng-template>
+    </div>
+
+  </div>
+
+  <!-- ======================================================== -->
+  <!-- COLUMNA DERECHA: Formulario de Nueva Cita Médica -->
+  <!-- ======================================================== -->
+  <div class="columna-derecha-citas">
+    <div class="contenedor-formulario-cita">
+      
+      <h3 class="titulo-formulario">Reservar Nueva Cita Médica</h3>
+      <p class="subtitulo-formulario">Elige la especialidad, médico y horario para tu consulta</p>
+
+      <div *ngIf="mensajeExito" class="alerta-exito">
+        {{ mensajeExito }}
+      </div>
+
+      <form [formGroup]="reservaForm" (ngSubmit)="registrarCita()" class="form-grid-clinico">
+        
+        <!-- Especialidad y Médico -->
+        <div class="grid-dos-campos">
+          <div class="campo-grupo">
+            <label class="label-formulario">Especialidad *</label>
+            <select formControlName="especialidad" class="input-clinica">
+              <option *ngFor="let esp of especialidades" [value]="esp">{{ esp }}</option>
+            </select>
+          </div>
+
+          <div class="campo-grupo">
+            <label class="label-formulario">Médico Disponible *</label>
+            <select formControlName="medico_id" class="input-clinica">
+              <option value="">Seleccione médico...</option>
+              <option *ngFor="let m of medicos" [value]="m.id">{{ m.nombre }}</option>
+            </select>
+            <span *ngIf="reservaForm.get('medico_id')?.touched && reservaForm.get('medico_id')?.invalid" class="error-texto">
+              Selecciona un médico.
+            </span>
+          </div>
+        </div>
+
+        <!-- DNI y Nombre -->
+        <div class="grid-dos-campos">
+          <div class="campo-grupo">
+            <label class="label-formulario">DNI del Paciente *</label>
+            <input type="text" formControlName="paciente_dni" placeholder="Ej: 71234567" class="input-clinica">
+          </div>
+
+          <div class="campo-grupo">
+            <label class="label-formulario">Nombre Completo *</label>
+            <input type="text" formControlName="paciente_nombre" placeholder="Nombre del paciente" class="input-clinica">
+          </div>
+        </div>
+
+        <!-- Correo Electrónico -->
+        <div class="campo-grupo">
+          <label class="label-formulario">Correo Electrónico *</label>
+          <input type="email" formControlName="paciente_correo" placeholder="correo@ejemplo.com" class="input-clinica">
+        </div>
+
+        <!-- Fecha y Hora con Reloj Interactivo -->
+        <div class="grid-dos-campos">
+          <div class="campo-grupo">
+            <label class="label-formulario">📅 Fecha de la Cita *</label>
+            <input type="date" formControlName="fecha" class="input-clinica">
+          </div>
+
+          <div class="campo-grupo">
+            <label class="label-formulario">⏰ Hora de Atención (Reloj) *</label>
+            <input 
+              type="time" 
+              formControlName="hora" 
+              class="input-clinica input-hora-reloj"
+            />
+          </div>
+        </div>
+
+        <!-- Botones de Horarios Rápidos -->
+        <div class="campo-grupo">
+          <label class="label-formulario" style="font-size: 12px; color: #64748b;">
+            💡 O selecciona un horario rápido sugerido:
+          </label>
+          <div class="contenedor-pildoras-hora">
+            <button 
+              type="button" 
+              *ngFor="let h of horariosRapidos" 
+              class="pildora-hora"
+              [class.pildora-activa]="reservaForm.get('hora')?.value === h"
+              (click)="seleccionarHorario(h)">
+              {{ h }}
+            </button>
+          </div>
+        </div>
+
+        <!-- Motivo de Consulta -->
+        <div class="campo-grupo">
+          <label class="label-formulario">Motivo de la Consulta *</label>
+          <input 
+            type="text" 
+            formControlName="motivo" 
+            placeholder="Describe brevemente tus síntomas o dolencia..." 
+            class="input-clinica"
+          />
+        </div>
+
+        <button type="submit" class="btn-primario btn-confirmar-cita">
+          📅 Confirmar Reserva de Cita
+        </button>
+      </form>
+
+    </div>
+  </div>
+
+</div>
